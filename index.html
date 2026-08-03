@@ -7,13 +7,14 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Orbe Technology: recorridos interactivos con ubicación, orientación y voz.">
-  <title>Orbe Technology · Recorridos Interactivos · v2.5</title>
+  <meta name="description" content="Orbe Technology: recorridos interactivos y laboratorio GPS universal.">
+  <title>Orbe Technology · Recorridos Interactivos · v2.6</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/orbe.svg">
   <link rel="apple-touch-icon" href="icons/orbe.svg">
-  <link rel="stylesheet" href="leaflet-lite.css?v=2.5">
-  <link rel="stylesheet" href="styles.css?v=2.5">
+  <link rel="stylesheet" href="leaflet-lite.css?v=2.6">
+  <link rel="stylesheet" href="styles.css?v=2.6">
+  <link rel="stylesheet" href="gps-lab.css?v=2.6">
 </head>
 <body>
   <div id="app">
@@ -34,7 +35,7 @@
         <div id="mapFallback" class="map-fallback hidden">
           <div class="orb-large"></div>
           <strong>Mapa no disponible</strong>
-          <span>Comprueba la conexión. El modo demostración y la voz siguen funcionando.</span>
+          <span>Comprueba la conexión. El laboratorio GPS, el modo demostración y la voz siguen funcionando.</span>
         </div>
 
         <div class="status-row">
@@ -57,7 +58,7 @@
           <div id="pulseOrb" class="pulse-orb" aria-hidden="true"></div>
           <div>
             <small id="assistantState">Orbe está preparado</small>
-            <p id="assistantText">Activa el GPS o inicia el recorrido de demostración para explorar Granada.</p>
+            <p id="assistantText">Activa el GPS, utiliza el laboratorio universal o inicia el recorrido de demostración.</p>
           </div>
         </div>
 
@@ -115,6 +116,47 @@
           </label>
         </div>
 
+        <section id="gpsLab" class="gps-lab" aria-label="Laboratorio GPS Universal">
+          <div class="gps-lab-head">
+            <div>
+              <small>ORBE V2.6</small>
+              <strong>Laboratorio GPS Universal</strong>
+            </div>
+            <span id="labState" class="lab-chip">Preparado</span>
+          </div>
+          <p class="lab-help">Funciona en cualquier lugar. Registra la posición, precisión, velocidad, rumbo y distancia. También permite marcar un destino tocando el mapa.</p>
+
+          <div class="lab-actions">
+            <button id="labStartBtn" class="action action-primary" type="button">Iniciar prueba GPS</button>
+            <button id="labMarkBtn" class="action" type="button">Marcar destino en el mapa</button>
+            <button id="labClearDestinationBtn" class="action" type="button">Borrar destino</button>
+            <button id="labExportBtn" class="action" type="button">Descargar registro TXT</button>
+            <button id="labClearBtn" class="action" type="button">Limpiar registro</button>
+          </div>
+
+          <div class="lab-metrics">
+            <div class="lab-metric"><span>Latitud</span><strong id="labLat">—</strong></div>
+            <div class="lab-metric"><span>Longitud</span><strong id="labLon">—</strong></div>
+            <div class="lab-metric"><span>Precisión</span><strong id="labAccuracy">—</strong></div>
+            <div class="lab-metric"><span>Velocidad</span><strong id="labSpeed">—</strong></div>
+            <div class="lab-metric"><span>Rumbo GPS/mov.</span><strong id="labGpsHeading">—</strong></div>
+            <div class="lab-metric"><span>Brújula</span><strong id="labCompass">—</strong></div>
+            <div class="lab-metric"><span>Distancia recorrida</span><strong id="labDistance">0 m</strong></div>
+            <div class="lab-metric"><span>Duración</span><strong id="labDuration">00:00:00</strong></div>
+            <div class="lab-metric"><span>Muestras</span><strong id="labSamples">0</strong></div>
+          </div>
+
+          <div id="labQuality" class="lab-quality">Esperando GPS</div>
+
+          <div class="lab-destination-box">
+            <small>DESTINO DE PRUEBA</small>
+            <strong id="labDestination">Sin destino</strong>
+            <span id="labDestinationDirection">Pulsa «Marcar destino» y toca el mapa.</span>
+          </div>
+
+          <p class="lab-last-event">Último evento: <span id="labLastEvent">ninguno</span></p>
+        </section>
+
         <div id="nearestCard" class="nearest-card">
           <div>
             <small>Lugar más próximo</small>
@@ -129,7 +171,7 @@
           <div id="placesList" class="places-list"></div>
         </details>
 
-        <p class="privacy-note">La posición se procesa en el dispositivo en esta versión. No se guarda ni se envía a un servidor.</p>
+        <p class="privacy-note">La posición y el registro se procesan en el dispositivo. El TXT solo se genera cuando pulsas el botón de descarga.</p>
       </section>
     </main>
   </div>
@@ -150,9 +192,10 @@
 
   <div id="toast" class="toast" role="status"></div>
 
-  <script src="leaflet-lite.js?v=2.5"></script>
-  <script src="pois.js?v=2.5"></script>
-  <script src="demo-sync.js?v=2.5"></script>
-  <script src="app.js?v=2.5"></script>
+  <script src="leaflet-lite.js?v=2.6"></script>
+  <script src="pois.js?v=2.6"></script>
+  <script src="demo-sync.js?v=2.6"></script>
+  <script src="gps-lab.js?v=2.6"></script>
+  <script src="app.js?v=2.6"></script>
 </body>
 </html>
