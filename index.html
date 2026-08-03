@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b14">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Orbe Technology: guía inteligente de Granada basada en ubicación, orientación y voz.">
+  <title>Orbe Technology · Granada</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/orbe-192.png">
+  <link rel="apple-touch-icon" href="icons/orbe-192.png">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynhSSPDuZdvzOq7pUB7ZpARp+6g=" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand" aria-label="Orbe Technology">
+        <img src="icons/orbe-192.png" alt="" class="brand-icon">
+        <div>
+          <strong>Orbe</strong>
+          <span>Technology · Granada</span>
+        </div>
+      </div>
+      <button id="installBtn" class="icon-btn hidden" type="button" title="Instalar Orbe" aria-label="Instalar Orbe">＋</button>
+    </header>
+
+    <main>
+      <section class="map-wrap" aria-label="Mapa de Orbe">
+        <div id="map"></div>
+        <div id="mapFallback" class="map-fallback hidden">
+          <div class="orb-large"></div>
+          <strong>Mapa no disponible</strong>
+          <span>Comprueba la conexión. El modo demostración y la voz siguen funcionando.</span>
+        </div>
+
+        <div class="status-row">
+          <span id="locationBadge" class="badge badge-warn">GPS detenido</span>
+          <span id="modeBadge" class="badge">Caminando</span>
+          <span id="headingBadge" class="badge">Rumbo —</span>
+          <span id="compassBadge" class="badge">Brújula —</span>
+        </div>
+
+        <div class="map-actions">
+          <button id="locateBtn" class="round-btn" type="button" aria-label="Activar ubicación" title="Activar ubicación">◎</button>
+          <button id="centerBtn" class="round-btn" type="button" aria-label="Centrar mapa" title="Centrar mapa">⌖</button>
+        </div>
+      </section>
+
+      <section class="control-panel" aria-live="polite">
+        <div class="grabber"></div>
+
+        <div class="orbe-message">
+          <div id="pulseOrb" class="pulse-orb" aria-hidden="true"></div>
+          <div>
+            <small id="assistantState">Orbe está preparado</small>
+            <p id="assistantText">Activa el GPS o inicia el recorrido de demostración para explorar Granada.</p>
+          </div>
+        </div>
+
+        <div id="mobileSetup" class="mobile-setup">
+          <div class="mobile-setup-head">
+            <div>
+              <small>PRUEBA EN TELÉFONO</small>
+              <strong>Preparar GPS y brújula</strong>
+            </div>
+            <span id="secureStatus" class="setup-chip">Comprobando…</span>
+          </div>
+          <p id="mobileSetupText">Pulsa el botón una vez y acepta los permisos de ubicación. En Android, mantén activados la ubicación y la precisión de Google.</p>
+          <div class="setup-grid">
+            <button id="prepareMobileBtn" class="action action-primary" type="button">Preparar móvil</button>
+            <button id="diagnosticsBtn" class="action" type="button">Ver diagnóstico</button>
+          </div>
+          <div id="diagnosticsPanel" class="diagnostics-panel hidden">
+            <div><span>Contexto seguro</span><strong id="diagSecure">—</strong></div>
+            <div><span>Geolocalización</span><strong id="diagGeo">—</strong></div>
+            <div><span>Brújula</span><strong id="diagCompass">—</strong></div>
+            <div><span>Pantalla activa</span><strong id="diagWake">—</strong></div>
+            <div><span>Protocolo</span><strong id="diagProtocol">—</strong></div>
+            <div><span>Permiso GPS</span><strong id="diagPermission">—</strong></div>
+          </div>
+        </div>
+
+        <div class="primary-actions">
+          <button id="gpsBtn" class="action action-primary" type="button">
+            <span>◎</span> Activar GPS
+          </button>
+          <button id="micBtn" class="action action-voice" type="button">
+            <span>●</span> Hablar con Orbe
+          </button>
+        </div>
+
+        <div class="quick-grid">
+          <button id="nearbyBtn" class="quick" type="button"><span>⌁</span> ¿Qué hay cerca?</button>
+          <button id="moreBtn" class="quick" type="button"><span>＋</span> Cuéntame más</button>
+          <button id="demoBtn" class="quick" type="button"><span>▶</span> Recorrido demo</button>
+          <button id="muteBtn" class="quick" type="button"><span>🔊</span> Voz activada</button>
+        </div>
+
+        <div class="settings-line">
+          <label class="select-wrap">
+            <span>Modo</span>
+            <select id="travelMode">
+              <option value="walk">Caminando</option>
+              <option value="car">Vehículo</option>
+            </select>
+          </label>
+          <label class="switch-wrap">
+            <span>Descubrimiento automático</span>
+            <input id="autoDiscover" type="checkbox" checked>
+            <i></i>
+          </label>
+        </div>
+
+        <div id="nearestCard" class="nearest-card">
+          <div>
+            <small>Lugar más próximo</small>
+            <strong id="nearestName">Esperando ubicación</strong>
+            <span id="nearestMeta">—</span>
+          </div>
+          <button id="openNearestBtn" class="small-btn" type="button" disabled>Ver</button>
+        </div>
+
+        <details class="places-section">
+          <summary>Lugares incluidos en esta primera versión <span id="poiCount"></span></summary>
+          <div id="placesList" class="places-list"></div>
+        </details>
+
+        <p class="privacy-note">La posición se procesa en el dispositivo en esta versión. No se guarda ni se envía a un servidor.</p>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="poiDialog" class="poi-dialog">
+    <button id="closeDialogBtn" class="dialog-close" type="button" aria-label="Cerrar">×</button>
+    <div id="dialogEmoji" class="dialog-emoji">◎</div>
+    <small id="dialogCategory"></small>
+    <h2 id="dialogTitle"></h2>
+    <p id="dialogDistance"></p>
+    <p id="dialogLong"></p>
+    <div class="dialog-actions">
+      <button id="speakPoiBtn" class="action action-primary" type="button">Escuchar</button>
+      <button id="guidePoiBtn" class="action" type="button">Orientarme</button>
+    </div>
+    <a id="dialogSource" href="#" target="_blank" rel="noreferrer">Consultar fuente</a>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="pois.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
