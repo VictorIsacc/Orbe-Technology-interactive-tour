@@ -8,13 +8,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="Orbe Technology: recorridos interactivos y laboratorio GPS universal.">
-  <title>Orbe Technology · Recorridos Interactivos · v2.7</title>
+  <title>Orbe Technology · Recorridos Interactivos · v2.8</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/orbe.svg">
   <link rel="apple-touch-icon" href="icons/orbe.svg">
-  <link rel="stylesheet" href="leaflet-lite.css?v=2.7">
-  <link rel="stylesheet" href="styles.css?v=2.7">
-  <link rel="stylesheet" href="gps-lab.css?v=2.7">
+  <link rel="stylesheet" href="leaflet-lite.css?v=2.8">
+  <link rel="stylesheet" href="styles.css?v=2.8">
+  <link rel="stylesheet" href="gps-lab.css?v=2.8">
 </head>
 <body>
   <div id="app">
@@ -86,12 +86,8 @@
         </div>
 
         <div class="primary-actions">
-          <button id="gpsBtn" class="action action-primary" type="button">
-            <span>◎</span> Activar GPS
-          </button>
-          <button id="micBtn" class="action action-voice" type="button">
-            <span>●</span> Hablar con Orbe
-          </button>
+          <button id="gpsBtn" class="action action-primary" type="button"><span>◎</span> Activar GPS</button>
+          <button id="micBtn" class="action action-voice" type="button"><span>●</span> Hablar con Orbe</button>
         </div>
 
         <div class="quick-grid">
@@ -119,12 +115,12 @@
         <section id="gpsLab" class="gps-lab" aria-label="Laboratorio GPS Universal">
           <div class="gps-lab-head">
             <div>
-              <small>ORBE V2.7</small>
+              <small>ORBE V2.8</small>
               <strong>Laboratorio GPS Universal</strong>
             </div>
             <span id="labState" class="lab-chip">Preparado</span>
           </div>
-          <p class="lab-help">Funciona en cualquier lugar. Registra la posición, precisión, velocidad, rumbo y distancia. También permite marcar un destino tocando el mapa.</p>
+          <p class="lab-help">Funciona en cualquier lugar. Marca un destino y Orbe te dirá por voz dónde queda. Puedes probar la orientación estando quieto y girándote con el teléfono en vertical.</p>
 
           <div class="lab-actions">
             <button id="labStartBtn" class="action action-primary" type="button">Iniciar prueba GPS</button>
@@ -192,10 +188,11 @@
 
   <div id="toast" class="toast" role="status"></div>
 
-  <script src="leaflet-lite.js?v=2.7"></script>
-  <script src="pois.js?v=2.7"></script>
-  <script src="demo-sync.js?v=2.7"></script>
-  <script src="gps-lab.js?v=2.7"></script>
-  <script src="app.js?v=2.7"></script>
+  <script src="leaflet-lite.js?v=2.8"></script>
+  <script src="pois.js?v=2.8"></script>
+  <script src="demo-sync.js?v=2.8"></script>
+  <script src="gps-lab.js?v=2.8"></script>
+  <script src="destination-guide.js?v=2.8"></script>
+  <script src="app.js?v=2.8"></script>
 </body>
 </html>
