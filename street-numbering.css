@@ -1,0 +1,46 @@
+.street-numbering-panel {
+  margin-top: 14px;
+  padding: 15px;
+  border: 1px solid rgba(97, 231, 255, .22);
+  border-radius: 18px;
+  background: rgba(9, 17, 31, .82);
+}
+.street-numbering-panel.hidden { display: none; }
+.street-numbering-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+.street-numbering-head small,
+.street-numbering-panel > small {
+  display: block;
+  color: #91a5bf;
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+.street-numbering-head strong {
+  display: block;
+  margin-top: 3px;
+  color: #eefbff;
+}
+.street-numbering-chip {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(97, 231, 255, .12);
+  color: #8ff3ff;
+  font-size: .68rem;
+}
+.street-numbering-message {
+  margin: 8px 0 12px;
+  color: #f4f8ff;
+  line-height: 1.45;
+}
+.street-numbering-note {
+  margin: 10px 0 0;
+  color: #91a5bf;
+  font-size: .78rem;
+  line-height: 1.4;
+}
