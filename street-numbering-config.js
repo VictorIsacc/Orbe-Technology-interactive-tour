@@ -9,7 +9,9 @@
    * hacia números altos.
    * lowNumbersLeadToCenter: true si avanzar hacia lowEnd conduce al centro;
    * false si conduce al centro avanzar hacia highEnd; null si no se conoce.
+   * oddEvenReliable: true únicamente si la distribución por lados está verificada.
    * oddSideWhenIncreasing: lado de los impares al avanzar de lowEnd a highEnd.
+   * La orientación principal no depende de los lados ni del sentido del tráfico.
    */
   window.ORBE_STREET_NUMBERING_CONFIG = [
     {
@@ -20,11 +22,12 @@
       lowEnd: { lat: 37.17610, lon: -3.59805 },
       highEnd: { lat: 37.18235, lon: -3.60115 },
       lowNumbersLeadToCenter: true,
+      oddEvenReliable: false,
       oddSideWhenIncreasing: "left",
       maxDistanceMeters: 45,
       maxAccuracyMeters: 18,
       maxHeadingErrorDegrees: 55,
-      note: "Configuración piloto local. Debe verificarse la numeración real antes de usarla como referencia práctica."
+      note: "Configuración piloto local. Pares e impares no se muestran hasta que su distribución esté verificada."
     }
   ];
 })();
