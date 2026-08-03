@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "2.9";
+  const VERSION = "3.1";
   const $ = (id) => document.getElementById(id);
   const destinationEl = $("labDestination");
   const directionEl = $("labDestinationDirection");

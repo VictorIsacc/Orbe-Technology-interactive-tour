@@ -1,4 +1,4 @@
-const ORBE_VERSION = "2.9";
+const ORBE_VERSION = "3.1";
 const CACHE_PREFIX = "orbe-";
 
 self.addEventListener("install", (event) => {
@@ -17,4 +17,4 @@ self.addEventListener("message", (event) => {
   if (event.data === "ORBE_VERSION") event.source?.postMessage({ type: "ORBE_VERSION", version: ORBE_VERSION });
 });
 
-// Orbe v2.9: red directa, sin interceptar ni retener recursos.
+// Orbe v3.1: red directa, sin interceptar ni retener recursos.

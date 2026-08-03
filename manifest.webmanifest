@@ -3,7 +3,7 @@
   "short_name": "Orbe",
   "description": "Recorridos interactivos con ubicación, orientación y voz.",
   "lang": "es-ES",
-  "start_url": "./index.html?v=2.9",
+  "start_url": "./index.html?v=3.1",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",

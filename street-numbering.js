@@ -92,11 +92,43 @@
   }
 
   function invertSide(side) {
-    return side === "left" ? "right" : "left";
+    if (side === "left") return "right";
+    if (side === "right") return "left";
+    return null;
   }
 
   function sideWord(side) {
     return side === "left" ? "izquierda" : "derecha";
+  }
+
+  function centerGuidance(segment, increasing) {
+    if (typeof segment.lowNumbersLeadToCenter !== "boolean") return "";
+    const towardLow = !increasing;
+    const towardCenter = segment.lowNumbersLeadToCenter ? towardLow : !towardLow;
+    return towardCenter
+      ? " En este tramo, también avanzas hacia la zona centro."
+      : " En este tramo, te alejas de la zona centro.";
+  }
+
+  function oddEvenGuidance(segment, increasing) {
+    if (segment.oddEvenReliable !== true) return "";
+    const oddSide = increasing
+      ? segment.oddSideWhenIncreasing
+      : invertSide(segment.oddSideWhenIncreasing);
+    if (oddSide !== "left" && oddSide !== "right") return "";
+    const evenSide = invertSide(oddSide);
+    return ` A la ${sideWord(oddSide)}, impares; a la ${sideWord(evenSide)}, pares.`;
+  }
+
+  function guidanceMessage(segment, increasing) {
+    const numberDirection = increasing ? "subiendo" : "bajando";
+    const numberEnd = increasing ? "altos" : "bajos";
+
+    // La regla principal solo depende del eje verificado del tramo. La acera,
+    // los pares/impares y el sentido legal del tráfico no deciden el mensaje.
+    return `Los números están ${numberDirection}. Avanzas hacia el extremo de números ${numberEnd}.`
+      + centerGuidance(segment, increasing)
+      + oddEvenGuidance(segment, increasing);
   }
 
   function evaluateSegment(segment) {
@@ -123,22 +155,7 @@
     }
     if (headingError > maxError) return null;
 
-    const oddSide = increasing
-      ? segment.oddSideWhenIncreasing
-      : invertSide(segment.oddSideWhenIncreasing);
-    if (oddSide !== "left" && oddSide !== "right") return null;
-    const evenSide = invertSide(oddSide);
-
-    const numberDirection = increasing ? "subiendo" : "bajando";
-    let centerText = "";
-    if (typeof segment.lowNumbersLeadToCenter === "boolean") {
-      const towardLow = !increasing;
-      const towardCenter = segment.lowNumbersLeadToCenter ? towardLow : !towardLow;
-      centerText = towardCenter ? " vas hacia el centro." : " te alejas del centro.";
-    }
-
-    const message = `Los números están ${numberDirection}:${centerText} A la ${sideWord(oddSide)}, impares; a la ${sideWord(evenSide)}, pares.`
-      .replace(":  A", ". A");
+    const message = guidanceMessage(segment, increasing);
 
     return { segment, distance, headingError, increasing, message };
   }
