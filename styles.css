@@ -30,7 +30,9 @@ main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65
 .map-wrap { position: sticky; top: 0; min-height: calc(100dvh - 68px); overflow: hidden; border-radius: 0 28px 0 0; }
 #map { width: 100%; height: 100%; min-height: calc(100dvh - 68px); background: #101827; }
 .leaflet-container { background: #101827; font-family: inherit; }
-.leaflet-tile-pane { filter: saturate(.72) brightness(.66) contrast(1.16) hue-rotate(168deg); }
+.leaflet-tile-pane { filter: none !important; }
+.leaflet-tile { max-width: none !important; max-height: none !important; image-rendering: auto; }
+/* El filtro oscuro anterior podía provocar huecos de renderizado en Chrome. */
 .leaflet-control-attribution { font-size: 9px; background: rgba(8,11,20,.78) !important; color: #c3c9d7; }
 .leaflet-control-attribution a { color: #8deaff; }
 .poi-marker { width: 34px; height: 34px; display: grid; place-items: center; border: 2px solid rgba(255,255,255,.8); border-radius: 50%; background: linear-gradient(145deg, rgba(25,35,61,.98), rgba(10,13,25,.98)); box-shadow: 0 6px 18px rgba(0,0,0,.42), 0 0 18px rgba(97,231,255,.26); font-size: 17px; }

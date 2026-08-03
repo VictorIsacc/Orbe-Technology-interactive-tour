@@ -79,12 +79,43 @@
       els.mapFallback.classList.remove("hidden");
       return;
     }
-    state.map = L.map("map", { zoomControl: false, preferCanvas: true }).setView(GRANADA_CENTER, 15);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    state.map = L.map("map", {
+      zoomControl: false,
+      preferCanvas: true,
+      zoomAnimation: false,
+      fadeAnimation: false
+    }).setView(GRANADA_CENTER, 15);
+
+    const baseTiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
+      detectRetina: false,
+      updateWhenIdle: false,
+      keepBuffer: 3,
       attribution: "© OpenStreetMap contributors"
     }).addTo(state.map);
+
+    baseTiles.on("tileerror", () => {
+      els.mapFallback.classList.add("hidden");
+    });
+
     L.control.zoom({ position: "bottomleft" }).addTo(state.map);
+
+    const refreshMapSize = () => {
+      if (state.map) state.map.invalidateSize({ pan: false, animate: false });
+    };
+    state.map.whenReady(() => {
+      window.setTimeout(refreshMapSize, 120);
+      window.setTimeout(refreshMapSize, 600);
+    });
+    if (window.ResizeObserver) {
+      const mapResizeObserver = new ResizeObserver(refreshMapSize);
+      mapResizeObserver.observe(els.map);
+    }
+    window.addEventListener("resize", refreshMapSize, { passive: true });
+    window.addEventListener("orientationchange", () => window.setTimeout(refreshMapSize, 250), { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) window.setTimeout(refreshMapSize, 100);
+    });
 
     POIS.forEach((poi) => {
       const icon = L.divIcon({
